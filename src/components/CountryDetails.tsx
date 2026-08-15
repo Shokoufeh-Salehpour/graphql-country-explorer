@@ -1,45 +1,15 @@
 import { useQuery } from '@apollo/client';
 import { Link, useParams } from 'react-router-dom';
-import { GET_COUNTRY } from '../graphql/documents';
-
-type CountryDetailsData = {
-  country: {
-    capital: string | null;
-    code: string;
-    continent: {
-      name: string;
-    };
-    currency: string | null;
-    emoji: string;
-    languages: Array<{
-      code: string;
-      name: string;
-      native: string;
-    }>;
-    name: string;
-    phone: string;
-    states: Array<{
-      code: string;
-      name: string;
-    }>;
-  } | null;
-};
-
-type CountryDetailsVariables = {
-  code: string;
-};
+import { GetCountryDocument } from '../generated/graphql';
 
 export function CountryDetails() {
   const { code } = useParams();
   const countryCode = code?.toUpperCase();
 
-  const { data, error, loading } = useQuery<CountryDetailsData, CountryDetailsVariables>(
-    GET_COUNTRY,
-    {
-      skip: !countryCode,
-      variables: { code: countryCode ?? '' },
-    },
-  );
+  const { data, error, loading } = useQuery(GetCountryDocument, {
+    skip: !countryCode,
+    variables: { code: countryCode ?? '' },
+  });
 
   if (!countryCode) {
     return (

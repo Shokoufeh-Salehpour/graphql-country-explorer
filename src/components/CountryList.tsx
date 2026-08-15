@@ -1,15 +1,8 @@
 import { CountryCard } from './CountryCard';
+import type { GetCountriesQuery } from '../generated/graphql';
 
 type CountryListProps = {
-  countries: Array<{
-    capital: string | null;
-    code: string;
-    continent: {
-      name: string;
-    };
-    emoji: string;
-    name: string;
-  }>;
+  countries: GetCountriesQuery['countries'];
 };
 
 export function CountryList({ countries }: CountryListProps) {

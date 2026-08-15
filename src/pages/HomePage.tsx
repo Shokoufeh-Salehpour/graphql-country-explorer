@@ -1,21 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { CountryList } from '../components/CountryList';
-import { GET_COUNTRIES } from '../graphql/documents';
-
-type CountriesData = {
-  countries: Array<{
-    capital: string | null;
-    code: string;
-    continent: {
-      name: string;
-    };
-    emoji: string;
-    name: string;
-  }>;
-};
+import { GetCountriesDocument } from '../generated/graphql';
 
 export function HomePage() {
-  const { data, error, loading } = useQuery<CountriesData>(GET_COUNTRIES);
+  const { data, error, loading } = useQuery(GetCountriesDocument);
 
   return (
     <section className="explorer" aria-labelledby="app-title">

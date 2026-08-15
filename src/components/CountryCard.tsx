@@ -1,15 +1,8 @@
 import { Link } from 'react-router-dom';
+import type { CountrySummaryFragment } from '../generated/graphql';
 
 type CountryCardProps = {
-  country: {
-    capital: string | null;
-    code: string;
-    continent: {
-      name: string;
-    };
-    emoji: string;
-    name: string;
-  };
+  country: CountrySummaryFragment;
 };
 
 export function CountryCard({ country }: CountryCardProps) {
