@@ -1,0 +1,10 @@
+fragment CountrySummary on Country {
+  code
+  name
+  emoji
+  capital
+  continent {
+    code
+    name
+  }
+}

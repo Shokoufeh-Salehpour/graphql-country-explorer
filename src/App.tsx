@@ -1,14 +1,15 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { CountryPage } from './pages/CountryPage';
+import { HomePage } from './pages/HomePage';
+
 function App() {
   return (
     <main className="app-shell">
-      <section className="intro" aria-labelledby="app-title">
-        <p className="eyebrow">React + Apollo Client</p>
-        <h1 id="app-title">GraphQL Country Explorer</h1>
-        <p>
-          The application foundation is ready. Country queries, generated types, and
-          explorer views will be added in the next implementation steps.
-        </p>
-      </section>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/country/:code" element={<CountryPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </main>
   );
 }
