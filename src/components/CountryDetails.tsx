@@ -1,44 +1,53 @@
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
+import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { getCountryCacheSource } from '../apollo/cacheInspect';
+import { CacheNotice } from '../components/CacheNotice';
+import { EmptyState } from '../components/EmptyState';
+import { ErrorState } from '../components/ErrorState';
+import { LoadingState } from '../components/LoadingState';
 import { GetCountryDocument } from '../generated/graphql';
 
 export function CountryDetails() {
   const { code } = useParams();
   const countryCode = code?.toUpperCase();
+  const client = useApolloClient();
+  const cacheSource = useMemo(
+    () => (countryCode ? getCountryCacheSource(client, countryCode) : 'network'),
+    [client, countryCode],
+  );
 
+  // Default fetchPolicy is cache-first. Repeat visits read from InMemoryCache.
   const { data, error, loading } = useQuery(GetCountryDocument, {
     skip: !countryCode,
     variables: { code: countryCode ?? '' },
   });
 
   if (!countryCode) {
-    return (
-      <section className="details-card status-card">
-        A country code is required to show country details.
-      </section>
-    );
+    return <EmptyState message="A country code is required to show country details." />;
   }
 
   if (loading) {
-    return <section className="details-card status-card">Loading country details…</section>;
+    return (
+      <>
+        {cacheSource === 'summary-only' ? <CacheNotice source={cacheSource} /> : null}
+        <LoadingState message="Loading country details…" />
+      </>
+    );
   }
 
   if (error) {
     return (
-      <section className="details-card status-card error-card" role="alert">
-        We couldn’t find details for “{countryCode}”. Try a valid two-letter country code.
-      </section>
+      <ErrorState
+        message={`We couldn’t load details for “${countryCode}”. Please try again.`}
+      />
     );
   }
 
   const country = data?.country;
 
   if (!country) {
-    return (
-      <section className="details-card status-card">
-        No country was found for “{countryCode}”.
-      </section>
-    );
+    return <EmptyState message={`No country was found for “${countryCode}”.`} />;
   }
 
   return (
@@ -46,6 +55,7 @@ export function CountryDetails() {
       <Link className="back-link" to="/">
         ← All countries
       </Link>
+      <CacheNotice source={cacheSource} />
       <section className="details-card" aria-labelledby="country-name">
         <div className="country-heading">
           <span aria-hidden="true">{country.emoji}</span>

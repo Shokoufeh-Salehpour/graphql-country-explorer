@@ -6,6 +6,8 @@ const countriesLink = new HttpLink({
 
 export const apolloClient = new ApolloClient({
   link: countriesLink,
+  // Default fetchPolicy is cache-first, so repeat country queries skip the network
+  // when InMemoryCache already has the requested fields.
   cache: new InMemoryCache({
     typePolicies: {
       Country: {
