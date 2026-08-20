@@ -1,0 +1,5 @@
+fragment PostSummary on Post {
+  id
+  title
+  body
+}

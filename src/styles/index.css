@@ -24,7 +24,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -33,6 +34,30 @@ input {
   min-height: 100vh;
   padding: 2rem;
   place-items: start center;
+  gap: 1rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 0.75rem;
+  width: min(100%, 56rem);
+}
+
+.site-nav a {
+  padding: 0.45rem 0.8rem;
+  border-radius: 0.55rem;
+  color: #3730a3;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  background: #eef2ff;
+}
+
+.app-shell main {
+  width: min(100%, 56rem);
 }
 
 .explorer {
@@ -41,7 +66,9 @@ input {
 
 .intro,
 .country-search,
-.details-card {
+.details-card,
+.post-form,
+.post-card {
   padding: 2rem;
   border: 1px solid #dbe3ef;
   border-radius: 1rem;
@@ -106,12 +133,35 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: #4338ca;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.button-secondary {
+  background: #e9edff;
+  color: #3730a3;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background: #c7d2fe;
+}
+
+.button-danger {
+  background: #b91c1c;
+}
+
+.button-danger:hover:not(:disabled) {
+  background: #991b1b;
+}
+
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   outline: 3px solid rgb(79 70 229 / 30%);
   outline-offset: 2px;
 }
@@ -254,6 +304,88 @@ input:focus-visible {
   color: #b91c1c;
 }
 
+.inline-error,
+.inline-success {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.inline-error {
+  color: #b91c1c;
+}
+
+.inline-success {
+  color: #166534;
+}
+
+.post-form {
+  margin-bottom: 0.75rem;
+}
+
+.post-form h2,
+.post-card h3 {
+  margin: 0 0 0.75rem;
+}
+
+.post-form label {
+  display: block;
+  margin: 0.75rem 0 0.4rem;
+  color: #34415a;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.post-form input,
+.post-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #c8d2e2;
+  border-radius: 0.55rem;
+  color: #172033;
+}
+
+.post-form button {
+  margin-top: 1rem;
+}
+
+.post-form-inline {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.post-form-inline button {
+  margin-top: 0;
+}
+
+.post-list {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  list-style: none;
+}
+
+.post-card p {
+  margin: 0;
+  color: #27334a;
+  line-height: 1.5;
+}
+
+.post-card .country-meta {
+  margin-top: 0.65rem;
+}
+
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
 @media (max-width: 500px) {
   .app-shell {
     padding: 1rem;
@@ -261,7 +393,9 @@ input:focus-visible {
 
   .intro,
   .country-search,
-  .details-card {
+  .details-card,
+  .post-form,
+  .post-card {
     padding: 1.25rem;
   }
 
